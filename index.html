@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="darkreader-lock">
+<title>Hive</title>
+<meta name="description" content="Private chats, hives, vaults and meetings for your phone and your Windows PC.">
+<meta property="og:title" content="Hive">
+<meta property="og:description" content="Private chats, hives, vaults and meetings for your phone and your Windows PC.">
+<link rel="icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: dark;
+  --ink: #100D0A; --smoke: #1F1A15; --ash: #2A231C; --line: #372E25;
+  --paper: #F4EDE3; --dust: #ADA092; --honey: #F28C28; --cool: #A8D8EA; --out: #4C3016; --in: #241E18;
+}
+* { box-sizing: border-box; }
+html { background: var(--ink); scroll-behavior: smooth; }
+body { margin: 0; color: var(--paper); font: 300 17px/1.65 Alexandria, "Segoe UI", Tahoma, sans-serif; overflow-x: hidden; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--cool); outline-offset: 3px; }
+.wrap { width: 100%; padding-inline: clamp(20px, 5vw, 96px); }
+
+/* Header */
+header { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 20px; text-decoration: none; }
+.brand svg { width: 30px; height: 30px; }
+
+/* Hero: the comb is the page's one big idea. */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(40px, 6vw, 120px); align-items: center; padding: 44px 0 90px; }
+h1 { margin: 0; font-weight: 900; font-size: clamp(46px, 7vw, 136px); line-height: 1.02; letter-spacing: -.025em; }
+.lead { max-width: 34em; color: var(--dust); font-size: 19px; margin: 24px 0 32px; }
+.get { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn { display: inline-flex; align-items: center; gap: 10px; min-height: 54px; padding: 8px 24px; border-radius: 12px; font-weight: 500; text-decoration: none; transition: background .15s, border-color .15s; }
+.btn svg { width: 20px; height: 20px; flex: none; }
+.btn.main { background: var(--honey); color: #1A1004; }
+.btn.main:hover { background: #F59A40; }
+.btn.alt { border: 1px solid var(--line); }
+.btn.alt:hover { border-color: var(--dust); }
+.btn small { display: block; font-size: 12px; font-weight: 300; opacity: .75; line-height: 1.2; }
+.btn span { line-height: 1.25; }
+
+.comb { --s: clamp(92px, 12.4vw, 230px); position: relative; height: calc(var(--s) * 3.32); width: calc(var(--s) * 3.28); margin-inline: auto; }
+.cell { position: absolute; width: var(--s); height: calc(var(--s) * 1.1547); padding: 0; border: 0; background: var(--smoke); color: var(--paper); clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); display: grid; place-content: center; justify-items: center; gap: 6px; font: inherit; font-size: clamp(11px, 1vw, 17px); font-weight: 400; cursor: pointer; transition: background .15s; }
+.cell svg { width: 30%; height: auto; }
+.cell:hover, .cell.on { background: var(--ash); color: var(--cool); }
+.cell.core { background: var(--honey); cursor: default; }
+.cell.core svg { width: 62%; }
+.c0 { left: calc(var(--s) * 1.14); top: calc(var(--s) * 1.08); }
+.c1 { left: calc(var(--s) * .57); top: 0; }
+.c2 { left: calc(var(--s) * 1.71); top: 0; }
+.c3 { left: calc(var(--s) * 2.28); top: calc(var(--s) * 1.08); }
+.c4 { left: calc(var(--s) * 1.71); top: calc(var(--s) * 2.16); }
+.c5 { left: calc(var(--s) * .57); top: calc(var(--s) * 2.16); }
+.c6 { left: 0; top: calc(var(--s) * 1.08); }
+.say { min-height: 3.3em; max-width: 26em; margin: 22px auto 0; text-align: center; color: var(--dust); font-size: 16px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .cell { animation: seat .46s cubic-bezier(.2,.8,.3,1) both; animation-delay: calc(var(--i) * 55ms + 120ms); }
+  @keyframes seat { from { opacity: 0; transform: scale(.72); } }
+}
+
+/* A real conversation: this is the thing the app is proudest of. */
+.talk { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(40px, 6vw, 120px); align-items: center; padding: 70px 0; border-top: 1px solid var(--line); }
+h2 { margin: 0 0 14px; font-weight: 700; font-size: clamp(30px, 4vw, 46px); line-height: 1.12; letter-spacing: -.015em; }
+.talk p, .tree-copy p, .quiet p { color: var(--dust); margin: 0; max-width: 32em; }
+.window { background: var(--smoke); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.bar { display: flex; align-items: center; gap: 11px; padding: 12px 16px; border-bottom: 1px solid var(--line); }
+.hexa { width: 36px; height: 40px; flex: none; background: var(--cool); clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); display: grid; place-items: center; color: #12252c; font-weight: 700; font-size: 14px; }
+.bar b { display: block; font-weight: 500; font-size: 15px; line-height: 1.3; }
+.bar i { font-style: normal; font-size: 12px; color: var(--cool); }
+.msgs { padding: 16px; display: grid; gap: 8px; direction: ltr; font-size: 14.5px; line-height: 1.55; }
+.m { max-width: 76%; padding: 7px 12px 6px; border-radius: 12px; background: var(--in); justify-self: start; }
+.m.me { background: var(--out); color: #FCEFDE; justify-self: end; }
+.m em { font-style: normal; display: block; font-size: 12px; font-weight: 500; color: #FFC46B; }
+.m em.b { color: #86CFFF; }
+.m time { float: right; margin: 6px 0 -1px 12px; font-size: 10.5px; color: var(--dust); }
+.m.me time { color: #d9c4a8; }
+.m time b { color: var(--cool); font-weight: 400; }
+.react { display: inline-block; margin-top: 4px; padding: 0 8px; border-radius: 10px; background: rgba(168,216,234,.13); color: var(--cool); font-size: 12px; }
+
+/* Your Drive, as you'd find it. */
+.tree-copy { padding: 70px 0 0; border-top: 1px solid var(--line); }
+.tree-wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(40px, 6vw, 120px); padding: 0 0 70px; }
+.tree { list-style: none; margin: 34px 0 0; padding: 0; font-size: 19px; font-weight: 400; }
+.tree ul { list-style: none; margin: 0; padding-inline-start: 26px; border-inline-start: 1px solid var(--line); margin-inline-start: 9px; }
+.tree li { padding: 5px 0; }
+.tree .n { color: var(--honey); font-weight: 500; }
+.tree .q { color: var(--dust); font-weight: 300; font-size: 15px; }
+.facts { margin: 34px 0 0; padding: 0; list-style: none; }
+.facts li { padding: 14px 0; border-bottom: 1px solid var(--line); }
+.facts b { font-weight: 500; display: block; }
+.facts span { color: var(--dust); font-size: 15px; }
+
+/* Phone and PC */
+.quiet { padding: 70px 0; border-top: 1px solid var(--line); }
+.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; margin-top: 34px; }
+.steps div { border-top: 2px solid var(--honey); padding-top: 12px; }
+.steps b { display: block; font-weight: 500; font-size: 18px; }
+.steps span { color: var(--dust); font-size: 15px; }
+
+/* Getting it */
+.end { padding: 80px 0 40px; border-top: 1px solid var(--line); text-align: center; }
+.end h2 { font-size: clamp(38px, 6vw, 68px); font-weight: 900; }
+.end .get { justify-content: center; margin-top: 26px; }
+.note { max-width: 40em; margin: 26px auto 0; color: var(--dust); font-size: 14.5px; }
+footer { padding: 26px 0 40px; color: var(--dust); font-size: 13px; text-align: center; }
+
+@media (max-width: 860px) {
+  .hero, .talk, .tree-wrap { grid-template-columns: minmax(0, 1fr); }
+  .hero { padding-top: 20px; gap: 56px; }
+  .comb { --s: min(26vw, 118px); }
+  .steps { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .tree-wrap { gap: 0; }
+  .btn { flex: 1 1 100%; justify-content: center; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="brand" href="#"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2.5 27.7 9.2v13.6L16 29.5 4.3 22.8V9.200z" fill="#F28C28"/><path d="M16 9.500 21.700 12.800v6.400L16 22.500l-3.200-1.800-3 1 .9-3v-6z" fill="#100D0A"/></svg>Hive</a>
+  </header>
+
+  <section class="hero">
+    <div>
+      <h1>Your people, one hive.</h1>
+      <p class="lead">Chats, group hives, calls and meetings on your phone and your Windows PC, with private vaults that live in your own Google Drive.</p>
+      <div class="get">
+        <a class="btn main" href="https://github.com/Shichibukai-21/Hive-desktop-releases/releases/latest/download/Hive-Setup.exe"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5.500 10.500 4.500v7H3zM11.500 4.300 21 3v8.500h-9.500zM3 12.500h7.500v7L3 18.500zM11.500 12.500H21V21l-9.500-1.300z"/></svg><span><span>Download for Windows</span><small id="winv"></small></span></a>
+        <a class="btn alt" id="apk" href="https://github.com/Shichibukai-21/Hive-releases/releases/latest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M8 3h8a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM11 18h2"/></svg><span><span>Download for Android</span><small id="andv"></small></span></a>
+      </div>
+    </div>
+    <div>
+      <div class="comb" id="comb">
+        <div class="cell core c0" style="--i:0" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 9.500 21.700 12.800v6.400L16 22.500l-3.200-1.800-3 1 .9-3v-6z" fill="#100D0A" transform="translate(-16 -16) scale(2)"/></svg></div>
+        <button class="cell c1" style="--i:1" data-k="chats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M4 6.500A2.500 2.500 0 0 1 6.500 4h11A2.500 2.500 0 0 1 20 6.500v8a2.500 2.500 0 0 1-2.500 2.500H10l-4.200 3.200c-.5.4-1.300 0-1.300-.6V17A2.500 2.500 0 0 1 4 14.500z"/></svg><span></span></button>
+        <button class="cell c2" style="--i:2" data-k="hives"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3l7.800 4.500v9L12 21l-7.800-4.500v-9z"/></svg><span></span></button>
+        <button class="cell c3" style="--i:3" data-k="vaults"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M7 4h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3zM12 8.800a3.200 3.200 0 1 0 0 6.400 3.200 3.200 0 0 0 0-6.400z"/></svg><span></span></button>
+        <button class="cell c4" style="--i:4" data-k="meetings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M6.500 5.500h11A2.500 2.500 0 0 1 20 8v10a2.500 2.500 0 0 1-2.500 2.500h-11A2.500 2.500 0 0 1 4 18V8a2.500 2.500 0 0 1 2.500-2.500zM4 10h16M8.500 3.500v4M15.500 3.500v4"/></svg><span></span></button>
+        <button class="cell c5" style="--i:5" data-k="calls"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M6.200 4.200 8.600 4a1.400 1.400 0 0 1 1.400.900l1 2.700a1.400 1.400 0 0 1-.4 1.500L9.300 10.300a11 11 0 0 0 4.400 4.400l1.200-1.300a1.400 1.400 0 0 1 1.500-.4l2.700 1a1.400 1.400 0 0 1 .9 1.400l-.2 2.400a1.600 1.600 0 0 1-1.700 1.500C10.600 19 5 13.400 4.700 5.900a1.600 1.600 0 0 1 1.500-1.700z"/></svg><span></span></button>
+        <button class="cell c6" style="--i:6" data-k="stickers"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 3.500a8.500 8.500 0 1 0 0 17 8.500 8.500 0 0 0 0-17zM8.500 14c.8 1.300 2 2 3.500 2s2.700-.7 3.500-2M9 9.500v.5M15 9.500v.5"/></svg><span></span></button>
+      </div>
+      <p class="say" id="say" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section class="talk">
+    <div>
+      <h2>Arabic and English, in the same breath.</h2>
+      <p>Most apps scramble a mixed sentence. Hive keeps “9 PM” whole inside Arabic, sets each message in its own direction, and keeps the time out of the way.</p>
+    </div>
+    <div class="window" aria-label="A hive chat" role="img">
+      <div class="bar"><div class="hexa">ش</div><div><b>شلة الجمعة</b><i dir="ltr">Layla is typing…</i></div></div>
+      <div class="msgs">
+        <div class="m" dir="rtl"><em>ليلى</em><time dir="ltr">8:41 PM</time>نتقابل الساعة 9 PM عند الـ Roastery؟</div>
+        <div class="m" dir="ltr"><em class="b">Sam</em><time dir="ltr">8:42 PM</time>Works for me. Shall I book the table?</div>
+        <div class="m me" dir="rtl"><time dir="ltr">8:42 PM <b>✓✓</b></time>تمام، احجز لخمسة 👌<br><span class="react">❤️ 2</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tree-copy">
+    <h2>Vaults that stay yours.</h2>
+    <p>Throw anything into a vault and sort it later. Files go to your own Google Drive, in folders you can open and read like any other.</p>
+  </section>
+  <div class="tree-wrap">
+    <ul class="tree" dir="ltr">
+      <li><span class="n">Hive</span>
+        <ul><li>Vaults
+          <ul><li>Trip to Salalah
+            <ul><li>Photos</li><li>Videos</li><li>Voice notes</li><li>Files</li><li>Tickets <span class="q">a topic of yours</span></li></ul>
+          </li></ul>
+        </li></ul>
+      </li>
+    </ul>
+    <ul class="facts">
+      <li><b>Drop first, sort later</b><span>Each vault opens on a chat with yourself. Drag in a file, then move it to Files, Links or Passwords.</span></li>
+      <li><b>Passwords stay sealed</b><span>They're encrypted on your device. A recovery code only you hold brings them to a new one.</span></li>
+      <li><b>Your storage, your limit</b><span>Vaults use your Drive's space, and deleting from Hive puts files in your Drive's trash.</span></li>
+    </ul>
+  </div>
+
+  <section class="quiet">
+    <h2>Your phone knows you're at your PC.</h2>
+    <div class="steps">
+      <div><b>A message arrives</b><span>It shows up on your PC straight away, and your phone stays silent.</span></div>
+      <div><b>You read it</b><span>Nothing buzzes, and any notification on your phone clears itself.</span></div>
+      <div><b>You've stepped away</b><span>Still unread after 15 seconds, your phone buzzes. Calls always ring both.</span></div>
+    </div>
+  </section>
+
+  <section class="end">
+    <h2>Get Hive</h2>
+    <div class="get">
+      <a class="btn main" href="https://github.com/Shichibukai-21/Hive-desktop-releases/releases/latest/download/Hive-Setup.exe"><span>Download for Windows</span></a>
+      <a class="btn alt" id="apk2" href="https://github.com/Shichibukai-21/Hive-releases/releases/latest"><span>Download for Android</span></a>
+    </div>
+    <p class="note">Windows may warn you the first time, because Hive isn't signed by a paid certificate. Choose More info, then Run anyway. On Android, allow installs from your browser when it asks. Both apps update themselves after that.</p>
+  </section>
+  <footer>Hive needs Windows 10 or later, or Android 10 or later. You sign in with Google.</footer>
+</div>
+
+<script>
+const SAY = {
+  chats: ["Chats", "Replies, reactions, voice notes, polls, and read ticks that update as they happen."],
+  hives: ["Hives", "Groups with their own admins, permissions and name colours."],
+  vaults: ["Vaults", "Files, passwords and links in your own Drive, each vault with its own PIN if you want one."],
+  meetings: ["Meetings", "Goals first. Vote on a time, tick off tasks, keep the notes and recordings together."],
+  calls: ["Calls", "Voice calls between two people, ringing on your phone and your PC."],
+  stickers: ["Stickers", "Cut your own from any photo, including moving ones, and share whole packs."],
+};
+const cells = [...document.querySelectorAll(".cell[data-k]")];
+function pick(k) {
+  cells.forEach((c) => c.classList.toggle("on", c.dataset.k === k));
+  document.getElementById("say").textContent = SAY[k][1];
+}
+cells.forEach((c) => {
+  c.querySelector("span").textContent = SAY[c.dataset.k][0];
+  c.onmouseenter = c.onfocus = c.onclick = () => pick(c.dataset.k);
+});
+pick("vaults");
+// The phone's file name changes with each version, so the link and the numbers come from the latest release.
+const latest = (repo) => fetch(`https://api.github.com/repos/Shichibukai-21/${repo}/releases/latest`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+latest("Hive-releases").then((r) => {
+  const apk = r?.assets?.find((a) => a.name.endsWith(".apk"));
+  if (!apk) return;
+  document.getElementById("apk").href = apk.browser_download_url;
+  document.getElementById("apk2").href = apk.browser_download_url;
+  document.getElementById("andv").textContent = r.tag_name.replace(/^v/, "");
+});
+latest("Hive-desktop-releases").then((r) => { if (r) document.getElementById("winv").textContent = r.tag_name.replace(/^v/, ""); });
+</script>
+</body>
+</html>
