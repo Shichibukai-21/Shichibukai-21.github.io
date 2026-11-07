@@ -32,9 +32,9 @@ header { display: flex; align-items: center; justify-content: space-between; pad
 .brand svg { width: 30px; height: 30px; }
 
 /* Hero: the comb is the page's one big idea. */
-.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(40px, 6vw, 120px); align-items: center; padding: 44px 0 90px; }
-h1 { margin: 0; font-weight: 900; font-size: clamp(46px, 7vw, 136px); line-height: 1.02; letter-spacing: -.025em; }
-.lead { max-width: 34em; color: var(--dust); font-size: 19px; margin: 24px 0 32px; }
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 40px; align-items: center; padding: 44px 0 90px; }
+h1 { margin: 0; font-weight: 900; font-size: clamp(46px, 7.2vw, 92px); line-height: 1.02; letter-spacing: -.025em; }
+.lead { max-width: 30em; color: var(--dust); font-size: 19px; margin: 24px 0 32px; }
 .get { display: flex; flex-wrap: wrap; gap: 12px; }
 .btn { display: inline-flex; align-items: center; gap: 10px; min-height: 54px; padding: 8px 24px; border-radius: 12px; font-weight: 500; text-decoration: none; transition: background .15s, border-color .15s; }
 .btn svg { width: 20px; height: 20px; flex: none; }
@@ -45,8 +45,8 @@ h1 { margin: 0; font-weight: 900; font-size: clamp(46px, 7vw, 136px); line-heigh
 .btn small { display: block; font-size: 12px; font-weight: 300; opacity: .75; line-height: 1.2; }
 .btn span { line-height: 1.25; }
 
-.comb { --s: clamp(92px, 12.4vw, 230px); position: relative; height: calc(var(--s) * 3.32); width: calc(var(--s) * 3.28); margin-inline: auto; }
-.cell { position: absolute; width: var(--s); height: calc(var(--s) * 1.1547); padding: 0; border: 0; background: var(--smoke); color: var(--paper); clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); display: grid; place-content: center; justify-items: center; gap: 6px; font: inherit; font-size: clamp(11px, 1vw, 17px); font-weight: 400; cursor: pointer; transition: background .15s; }
+.comb { --s: clamp(92px, 12.6vw, 158px); position: relative; height: calc(var(--s) * 3.32); width: calc(var(--s) * 3.28); margin-inline: auto; }
+.cell { position: absolute; width: var(--s); height: calc(var(--s) * 1.1547); padding: 0; border: 0; background: var(--smoke); color: var(--paper); clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); display: grid; place-content: center; justify-items: center; gap: 6px; font: inherit; font-size: clamp(11px, 1.15vw, 14px); font-weight: 400; cursor: pointer; transition: background .15s; }
 .cell svg { width: 30%; height: auto; }
 .cell:hover, .cell.on { background: var(--ash); color: var(--cool); }
 .cell.core { background: var(--honey); cursor: default; }
@@ -66,7 +66,7 @@ h1 { margin: 0; font-weight: 900; font-size: clamp(46px, 7vw, 136px); line-heigh
 }
 
 /* A real conversation: this is the thing the app is proudest of. */
-.talk { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(40px, 6vw, 120px); align-items: center; padding: 70px 0; border-top: 1px solid var(--line); }
+.talk { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 56px; align-items: center; padding: 70px 0; border-top: 1px solid var(--line); }
 h2 { margin: 0 0 14px; font-weight: 700; font-size: clamp(30px, 4vw, 46px); line-height: 1.12; letter-spacing: -.015em; }
 .talk p, .tree-copy p, .quiet p { color: var(--dust); margin: 0; max-width: 32em; }
 .window { background: var(--smoke); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
@@ -86,7 +86,7 @@ h2 { margin: 0 0 14px; font-weight: 700; font-size: clamp(30px, 4vw, 46px); line
 
 /* Your Drive, as you'd find it. */
 .tree-copy { padding: 70px 0 0; border-top: 1px solid var(--line); }
-.tree-wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(40px, 6vw, 120px); padding: 0 0 70px; }
+.tree-wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; padding: 0 0 70px; }
 .tree { list-style: none; margin: 34px 0 0; padding: 0; font-size: 19px; font-weight: 400; }
 .tree ul { list-style: none; margin: 0; padding-inline-start: 26px; border-inline-start: 1px solid var(--line); margin-inline-start: 9px; }
 .tree li { padding: 5px 0; }
