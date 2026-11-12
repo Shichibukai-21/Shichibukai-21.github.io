@@ -135,7 +135,7 @@ footer { padding: 26px 0 40px; color: var(--dust); font-size: 13px; text-align: 
       <p class="lead">Chats, group hives, calls and meetings on your phone and your Windows PC, with private vaults that live in your own Google Drive.</p>
       <div class="get">
         <a class="btn main" data-get="windows" href="https://github.com/Shichibukai-21/Hive-desktop-releases/releases/latest/download/Hive-Setup.exe"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5.500 10.500 4.500v7H3zM11.500 4.300 21 3v8.500h-9.500zM3 12.500h7.500v7L3 18.500zM11.500 12.500H21V21l-9.500-1.300z"/></svg><span><span>Download for Windows</span><small data-v></small></span></a>
-        <a class="btn alt" data-get="android" href="https://github.com/Shichibukai-21/Hive-releases/releases/latest/download/Hive.apk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M8 3h8a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM11 18h2"/></svg><span><span>Download for Android</span><small data-v></small></span></a>
+        <a class="btn alt" data-get="android" href="https://github.com/Shichibukai-21/Hive-releases/releases/latest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M8 3h8a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM11 18h2"/></svg><span><span>Download for Android</span><small data-v></small></span></a>
       </div>
     </div>
     <div>
@@ -201,7 +201,7 @@ footer { padding: 26px 0 40px; color: var(--dust); font-size: 13px; text-align: 
     <h2>Get Hive</h2>
     <div class="get">
       <a class="btn main" data-get="windows" href="https://github.com/Shichibukai-21/Hive-desktop-releases/releases/latest/download/Hive-Setup.exe"><span><span>Download for Windows</span><small data-v></small></span></a>
-      <a class="btn alt" data-get="android" href="https://github.com/Shichibukai-21/Hive-releases/releases/latest/download/Hive.apk"><span><span>Download for Android</span><small data-v></small></span></a>
+      <a class="btn alt" data-get="android" href="https://github.com/Shichibukai-21/Hive-releases/releases/latest"><span><span>Download for Android</span><small data-v></small></span></a>
     </div>
     <p class="started" id="started" hidden aria-live="polite"></p>
     <p class="note">Windows may warn you the first time, because Hive isn't signed by a paid certificate. Choose More info, then Run anyway. On Android, allow installs from your browser when it asks. Both apps update themselves after that.</p>
@@ -228,9 +228,8 @@ cells.forEach((c) => {
   c.onmouseenter = c.onfocus = c.onclick = () => pick(c.dataset.k);
 });
 pick("vaults");
-// Downloads. Each button already points at a link that always gives the newest file
-// (releases/latest/download/<fixed name>), so nothing breaks if GitHub's API is slow or rate limited.
-// The API then swaps in the exact file and shows its version and size.
+// Downloads. GitHub's API swaps in the exact newest file and shows its version and size.
+// Without it, Windows still downloads (its file name never changes) and Android opens the latest release page.
 const RELEASES = {
   windows: { repo: "Hive-desktop-releases", pick: (a) => a.name === "Hive-Setup.exe" },
   android: { repo: "Hive-releases", pick: (a) => a.name === "Hive.apk" || /^Hive-[\d.]+\.apk$/.test(a.name) },
