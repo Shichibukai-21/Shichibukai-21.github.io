@@ -108,6 +108,8 @@ h2 { margin: 0 0 14px; font-weight: 700; font-size: clamp(30px, 4vw, 46px); line
 .end { padding: 80px 0 40px; border-top: 1px solid var(--line); text-align: center; }
 .end h2 { font-size: clamp(38px, 6vw, 68px); font-weight: 900; }
 .end .get { justify-content: center; margin-top: 26px; }
+.started { margin: 22px auto 0; color: var(--cool); font-size: 15px; }
+.started a { color: var(--cool); }
 .note { max-width: 40em; margin: 26px auto 0; color: var(--dust); font-size: 14.5px; }
 footer { padding: 26px 0 40px; color: var(--dust); font-size: 13px; text-align: center; }
 
@@ -132,8 +134,8 @@ footer { padding: 26px 0 40px; color: var(--dust); font-size: 13px; text-align: 
       <h1>Your people, one hive.</h1>
       <p class="lead">Chats, group hives, calls and meetings on your phone and your Windows PC, with private vaults that live in your own Google Drive.</p>
       <div class="get">
-        <a class="btn main" href="https://github.com/Shichibukai-21/Hive-desktop-releases/releases/latest/download/Hive-Setup.exe"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5.500 10.500 4.500v7H3zM11.500 4.300 21 3v8.500h-9.500zM3 12.500h7.500v7L3 18.500zM11.500 12.500H21V21l-9.500-1.300z"/></svg><span><span>Download for Windows</span><small id="winv"></small></span></a>
-        <a class="btn alt" id="apk" href="https://github.com/Shichibukai-21/Hive-releases/releases/latest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M8 3h8a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM11 18h2"/></svg><span><span>Download for Android</span><small id="andv"></small></span></a>
+        <a class="btn main" data-get="windows" href="https://github.com/Shichibukai-21/Hive-desktop-releases/releases/latest/download/Hive-Setup.exe"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5.500 10.500 4.500v7H3zM11.500 4.300 21 3v8.500h-9.500zM3 12.500h7.500v7L3 18.500zM11.500 12.500H21V21l-9.500-1.300z"/></svg><span><span>Download for Windows</span><small data-v></small></span></a>
+        <a class="btn alt" data-get="android" href="https://github.com/Shichibukai-21/Hive-releases/releases/latest/download/Hive.apk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M8 3h8a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM11 18h2"/></svg><span><span>Download for Android</span><small data-v></small></span></a>
       </div>
     </div>
     <div>
@@ -198,9 +200,10 @@ footer { padding: 26px 0 40px; color: var(--dust); font-size: 13px; text-align: 
   <section class="end">
     <h2>Get Hive</h2>
     <div class="get">
-      <a class="btn main" href="https://github.com/Shichibukai-21/Hive-desktop-releases/releases/latest/download/Hive-Setup.exe"><span>Download for Windows</span></a>
-      <a class="btn alt" id="apk2" href="https://github.com/Shichibukai-21/Hive-releases/releases/latest"><span>Download for Android</span></a>
+      <a class="btn main" data-get="windows" href="https://github.com/Shichibukai-21/Hive-desktop-releases/releases/latest/download/Hive-Setup.exe"><span><span>Download for Windows</span><small data-v></small></span></a>
+      <a class="btn alt" data-get="android" href="https://github.com/Shichibukai-21/Hive-releases/releases/latest/download/Hive.apk"><span><span>Download for Android</span><small data-v></small></span></a>
     </div>
+    <p class="started" id="started" hidden aria-live="polite"></p>
     <p class="note">Windows may warn you the first time, because Hive isn't signed by a paid certificate. Choose More info, then Run anyway. On Android, allow installs from your browser when it asks. Both apps update themselves after that.</p>
   </section>
   <footer>Hive needs Windows 10 or later, or Android 10 or later. You sign in with Google.</footer>
@@ -225,16 +228,71 @@ cells.forEach((c) => {
   c.onmouseenter = c.onfocus = c.onclick = () => pick(c.dataset.k);
 });
 pick("vaults");
-// The phone's file name changes with each version, so the link and the numbers come from the latest release.
-const latest = (repo) => fetch(`https://api.github.com/repos/Shichibukai-21/${repo}/releases/latest`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
-latest("Hive-releases").then((r) => {
-  const apk = r?.assets?.find((a) => a.name.endsWith(".apk"));
-  if (!apk) return;
-  document.getElementById("apk").href = apk.browser_download_url;
-  document.getElementById("apk2").href = apk.browser_download_url;
-  document.getElementById("andv").textContent = r.tag_name.replace(/^v/, "");
-});
-latest("Hive-desktop-releases").then((r) => { if (r) document.getElementById("winv").textContent = r.tag_name.replace(/^v/, ""); });
+// Downloads. Each button already points at a link that always gives the newest file
+// (releases/latest/download/<fixed name>), so nothing breaks if GitHub's API is slow or rate limited.
+// The API then swaps in the exact file and shows its version and size.
+const RELEASES = {
+  windows: { repo: "Hive-desktop-releases", pick: (a) => a.name === "Hive-Setup.exe" },
+  android: { repo: "Hive-releases", pick: (a) => a.name === "Hive.apk" || /^Hive-[\d.]+\.apk$/.test(a.name) },
+};
+const ua = navigator.userAgent;
+const mine = /Android/i.test(ua) ? "android" : /Windows/i.test(ua) ? "windows" : null;
+const links = (k) => [...document.querySelectorAll(`[data-get="${k}"]`)];
+const size = (b) => (b >= 1e6 ? `${(b / 1e6).toFixed(b >= 1e8 ? 0 : 1)} MB` : `${Math.round(b / 1e3)} KB`);
+
+// The visitor's own platform leads, in honey.
+if (mine) {
+  const other = mine === "android" ? "windows" : "android";
+  links(mine).forEach((a) => { a.classList.replace("alt", "main"); a.parentNode.prepend(a); });
+  links(other).forEach((a) => a.classList.replace("main", "alt"));
+}
+
+async function latest(k) {
+  const key = `hive-rel-${k}`;
+  try {
+    const kept = JSON.parse(sessionStorage.getItem(key) || "null");
+    if (kept && Date.now() - kept.at < 10 * 60e3) return kept;
+  } catch {}
+  try {
+    const r = await fetch(`https://api.github.com/repos/Shichibukai-21/${RELEASES[k].repo}/releases/latest`, { headers: { Accept: "application/vnd.github+json" } });
+    if (!r.ok) return null;
+    const j = await r.json();
+    const asset = j.assets?.find(RELEASES[k].pick);
+    if (!asset) return null;
+    const out = { at: Date.now(), version: j.tag_name.replace(/^v/, ""), url: asset.browser_download_url, size: asset.size };
+    try { sessionStorage.setItem(key, JSON.stringify(out)); } catch {}
+    return out;
+  } catch { return null; }
+}
+
+const ready = {};
+for (const k of Object.keys(RELEASES)) {
+  ready[k] = latest(k).then((r) => {
+    if (r) links(k).forEach((a) => {
+      a.href = r.url;
+      a.querySelector("[data-v]").textContent = `Version ${r.version} · ${size(r.size)}`;
+    });
+    return links(k)[0].href;
+  });
+}
+
+// Invite and share links and share links can end in ?download (or #download): the right file starts by itself.
+const asked = new URLSearchParams(location.search).get("download") ?? (location.hash === "#download" ? "" : null);
+if (asked !== null) {
+  const k = RELEASES[asked] ? asked : mine;
+  const note = document.getElementById("started");
+  note.hidden = false;
+  document.querySelector(".end").scrollIntoView();
+  if (!k) {
+    note.textContent = "Hive is for Android phones and Windows PCs. Pick one below.";
+  } else {
+    ready[k].then((url) => {
+      location.href = url;
+      const name = k === "android" ? "Android" : "Windows";
+      note.innerHTML = `Your download for ${name} has started. If it didn't, <a href="${url}">download it here</a>.`;
+    });
+  }
+}
 </script>
 </body>
 </html>
